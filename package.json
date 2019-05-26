@@ -1,0 +1,25 @@
+{
+  "name": "burger",
+  "version": "1.0.0",
+  "description": "burger app",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cqyates/Burger.git"
+  },
+  "author": "corey yates",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cqyates/Burger/issues"
+  },
+  "homepage": "https://github.com/cqyates/Burger#readme",
+  "dependencies": {
+    "dotenv": "^8.0.0",
+    "express": "^4.17.1",
+    "handlebars": "^4.1.2",
+    "mysql": "^2.17.1"
+  }
+}
