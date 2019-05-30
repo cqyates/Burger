@@ -4,36 +4,63 @@ var orm = {
     all: function (tableInput, cb) {
         var queryString = 'SELECT * FROM ' + tableInput + ';';
         connection.query(queryString, function (err, result) {
-            if (err) throw err;
+            if (err) {
+              throw err;
+            }
             cb(result)
-        })
+        });
     },
-    update: function (tableInput, condition, data, cb) {
-        var sqlQuery = "UPDATE " + tableInput +
-            " SET " + objToSql(data) +
-            " WHERE " + condition
+    update: function(table, objColVals, condition, cb) {
+      console.log("HIT ORM")
+      var queryString = "UPDATE " + table;
+  
+      queryString += " SET ";
+      queryString += objToSql(objColVals);
+      queryString += " WHERE ";
+      queryString += condition;
+  
+      console.log(queryString);
+      connection.query(queryString, function(err, result) {
+        if (err) {
+          throw err;
+        }
+  
+        cb(result);
+      });
+  },
 
-        connection.query(sqlQuery, function (err, result) {
-            if (err) throw err;
-            cb(result);
-        })
-    },
+    create: function(table, cols, vals, cb) {
+      var queryString = "INSERT INTO " + table;
+  
+      queryString += " (";
+      queryString += cols.toString();
+      queryString += ") ";
+      queryString += "VALUES (";
+      queryString += printQuestionMarks(vals.length);
+      queryString += ") ";
+  
+      console.log(queryString);
+      
+      connection.query(queryString, function(err, result) {
+        if (err) throw err;
+        cb(result);
+      });
+  },
+  delete: function(table, condition, cb) {
+    var queryString = "DELETE FROM " + table;
+    queryString += " WHERE ";
+    queryString += condition;
 
+    connection.query(queryString, function(err, result) {
+      if (err) {
+        throw err;
+      }
 
-    create: function (tableInput, cols, vals, cb) {
-        console.log(vals)
-        var sqlQuery =  "INSERT INTO " + tableInput + 
-                        " (" + cols.toString() + ")" + 
-                        " VALUES (" + printQuestionMarks(vals.length) + ")"
+      cb(result);
+    });
+  }
+};
 
-                        console.log(sqlQuery)
-        connection.query(sqlQuery, function (err, result) {
-            if (err) throw err;
-            cb(result);
-        })
-    }
-
-}
 
 function objToSql(ob) {
     var arr = [];
